@@ -1,16 +1,25 @@
 module.exports = {
-  env: { browser: true, es2020: true ,node:true},
+  env: { browser: true, es2020: true, node:true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
+    'plugin:react-hooks/recommended'
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    //mui
+    'no-restricted-imports': [
+      'error',
+      {
+        'patterns': ['@mui/*/*/*']
+      }
+    ],
+    //react
     'react-refresh/only-export-components': 'warn',
+    //common
     'no-console': 1,
     'no-lonely-if': 1,
     'no-unused-vars': 1,
@@ -29,5 +38,5 @@ module.exports = {
     'comma-dangle': 1,
     'comma-spacing': 1,
     'arrow-spacing': 1
-  },
+  }
 }
