@@ -1,15 +1,8 @@
-### Bộ code base để bắt đầu học khóa MERN Stack Pro (HỌC PHẦN FRONT-END: REACTJS - MATERIAL UI - REDUX...vv) - Lập Trình qua dự án thực tế Trello Clone trên YouTube của mình nhé các bạn!
-### Base project for my MERN Stack Pro Course - Build Trello App on YouTube!
+### Base project for my MERN Stack Pro Trello App 
 
-- Link Download Full Source Code hoàn chỉnh của bộ này và ủng hộ mình: (Sắp có...)
+- Preference to [Trung Quan Dev](https://github.com/trungquandev) and his instruction on [Youtube](https://youtube.com/playlist?list=PLP6tw4Zpj-RJP2-YrhtkWqObMQ-AA4TDy&si=b3ysEkkcikHvfDY0)
 
-- Link YouTube Playlist: https://www.youtube.com/playlist?list=PLP6tw4Zpj-RJP2-YrhtkWqObMQ-AA4TDy
-
-### Hướng dẫn clone Repo code này về máy các bạn chuẩn nhất ở đây nhé:
-
-- Link: https://youtu.be/lUfsTj45Uys
-
-### Requirements - Thông tin của bộ Code Base này - Chuẩn các phiên bản dưới đây để bắt đầu học: (Semantic Versioning)
+### Requirements: 
 
 ```
 * nodejs = v18.16.0
@@ -30,20 +23,8 @@
 * "eslint-plugin-react-refresh": "^0.3.4"
 ```
 
-### About Me - Thông tin về mình:
+### About Me:
 
-Author: **Trungquandev - Một Lập Trình Viên** & **CodeTQ**
+- Author: **Cotchi666 - FinnChien** & **Chilling**
 
-Blog: https://trungquandev.com/
-
-CV: https://cv.trungquandev.com/
-
-YouTube 01 (Trungquandev - Một Lập Trình Viên): https://www.youtube.com/@trungquandev
-
-YouTube 02 (CodeTQ): https://www.youtube.com/@code-tq
-
-"Learning new everyday not the copycat of yesterday!"
-
-"A bit of fragrance clings to the hand that gives flowers!"
-
-Thanks for watching!
+- Portfolio: [ChienFinn Portfolio](portfoliochie.onrender.com/)
