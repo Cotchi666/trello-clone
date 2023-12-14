@@ -27,4 +27,4 @@
 
 - Author: **Cotchi666 - FinnChien** & **Chilling**
 
-- Portfolio: [ChienFinn Portfolio](portfoliochie.onrender.com/)
+- Portfolio: [Chien Finn Portfolio](portfoliochie.onrender.com/)
