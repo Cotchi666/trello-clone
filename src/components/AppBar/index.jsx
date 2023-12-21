@@ -1,12 +1,12 @@
 import Box from '@mui/material/Box'
 import ModeSelect from '~/components/ModeSelect'
 import SvgIcon from '@mui/material/SvgIcon'
-import trelloLogo from '~/assets/trello.svg'
+import { ReactComponent as TrelloIcon } from '~/assets/trello.svg'
+import AppsIcon from '@mui/icons-material/Apps'
 function AppBar() {
   return (
     <Box
       sx={{
-        backgroundColor: 'primary.light',
         width: '100%',
         height: (theme) => theme.trello.appBarHeight,
         display: 'flex',
@@ -14,8 +14,8 @@ function AppBar() {
       }}
     >
       <Box>
-        <SvgIcon sx={{ color: 'primary.main' }} />
-        <img src={trelloLogo} alt="trello logo" />
+        <AppsIcon sx={{ color: 'primary.main' }} />
+        <SvgIcon component={TrelloIcon} inheritViewBox font-size="small" sx={{ color: 'primary.main' }}  />
       </Box>
       <Box>
         <ModeSelect />
