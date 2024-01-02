@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -9,8 +9,11 @@ import Check from '@mui/icons-material/Check'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
+import PersonalAdd from '@mui/icons-material/PersonAddAlt'
+import Settings from '@mui/icons-material/Settings'
+import Logout from '@mui/icons-material/Logout'
 function Profile() {
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -21,16 +24,6 @@ function Profile() {
 
   return (
     <Box>
-      <Button
-        id="basic-button-profile"
-        aria-controls={open ? 'basic-menu-profile' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        sx={{ padding: 0 }}
-      >
-        <Avatar sx={{ witdh: 32, height: 32 }} src="" alt="Profile"></Avatar>
-      </Button>
       <Tooltip title="Account settings">
         <IconButton
           onClick={handleClick}
@@ -40,7 +33,11 @@ function Profile() {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+          <Avatar
+            sx={{ witdh: 30, height: 30 }}
+            src="https://whatsondisneyplus.b-cdn.net/wp-content/uploads/2022/12/spiderman.png"
+            alt="Profile"
+          />
         </IconButton>
       </Tooltip>
       <Menu
@@ -52,30 +49,30 @@ function Profile() {
           'aria-labelledby': 'basic-button-profile'
         }}
       >
-        <MenuItem sx={{ width: 28, height: 28, mr: 2 }} onClick={handleClose}>
-          <Avatar />
+        <MenuItem onClick={handleClose}>
+          <Avatar sx={{ width: 28, height: 28, mr: 2 }} />
           Profile
         </MenuItem>
-        <MenuItem sx={{ width: 28, height: 28, mr: 2 }} onClick={handleClose}>
-          <Avatar />
+        <MenuItem onClick={handleClose}>
+          <Avatar sx={{ width: 28, height: 28, mr: 2 }} />
           My account
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Check fontSize="small" />
+            <PersonalAdd fontSize="small" />
           </ListItemIcon>
           Another account
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Check fontSize="small" />
+            <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Check fontSize="small" />
+            <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

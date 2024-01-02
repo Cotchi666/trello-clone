@@ -14,6 +14,7 @@ import Badge from '@mui/material/Badge'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import Tooltip from '@mui/material/Tooltip'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import Profile from './Menus/Profile'
 
 function AppBar() {
   return (
@@ -56,8 +57,8 @@ function AppBar() {
         <TextField
           id="outlined-search"
           label="Search..."
-          variant="search"
-          size=""
+          size="small"
+          type="search"
         />
         <ModeSelect />
 
@@ -69,6 +70,7 @@ function AppBar() {
         <Tooltip title="Help">
           <HelpOutlineIcon sx={{ cursor: 'pointer' }} />
         </Tooltip>
+        <Profile sx={{ cursor: 'pointer' }} />
       </Box>
     </Box>
   )
