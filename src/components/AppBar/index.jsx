@@ -6,6 +6,11 @@ import AppsIcon from '@mui/icons-material/Apps'
 import Typography from '@mui/material/Typography'
 import Workspaces from './Menus/Workspaces'
 import Recent from './Menus/Recent'
+import Templates from './Menus/Templates'
+import Starred from './Menus/Starred'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+
 function AppBar() {
   return (
     <Box
@@ -39,8 +44,17 @@ function AppBar() {
         </Box>
         <Workspaces />
         <Recent />
+        <Starred />
+        <Templates />
+        <Button variant="outlined">Create</Button>
       </Box>
       <Box>
+        <TextField
+          id="outlined-search"
+          label="Search..."
+          variant="search"
+          size=""
+        />
         <ModeSelect />
       </Box>
     </Box>
