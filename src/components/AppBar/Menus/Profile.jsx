@@ -34,7 +34,7 @@ function Profile() {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            sx={{ witdh: 30, height: 30 }}
+            sx={{ witdh: 34, height: 34 }}
             src="https://whatsondisneyplus.b-cdn.net/wp-content/uploads/2022/12/spiderman.png"
             alt="Profile"
           />
