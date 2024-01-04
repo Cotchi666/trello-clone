@@ -43,39 +43,31 @@ function BoardBar() {
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Chip
-          sx={{ MENU_STYLES }}
+          sx={MENU_STYLES}
           icon={<DashboardIcon />}
           label="Chien MERN Stack Board"
           clickable
         />
         <Chip
-          sx={{
-            MENU_STYLES
-          }}
+          sx={MENU_STYLES}
           icon={<VpnLockIcon />}
           label="Public/Private Workspaces"
           clickable
         />
         <Chip
-          sx={{
-            MENU_STYLES
-          }}
+          sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add to Google Drive"
           clickable
         />
         <Chip
-          sx={{
-            MENU_STYLES
-          }}
+          sx={MENU_STYLES}
           icon={<BoltIcon />}
           label="Automation"
           clickable
         />
         <Chip
-          sx={{
-            MENU_STYLES
-          }}
+          sx={MENU_STYLES}
           icon={<FilterListIcon />}
           label="Filters"
           clickable
