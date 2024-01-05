@@ -1,12 +1,12 @@
 {
   "name": "vite-trello-web-base-project",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "author": "FinnChien - Cotchi66",
   "description": "practice project",
   "engines": {
-    "node": "18.16.0"
+    "node": "18.16.1"
   },
   "scripts": {
     "dev": "vite --host",
