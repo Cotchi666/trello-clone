@@ -5,7 +5,7 @@
 ### Requirements: 
 
 ```
-* nodejs = v18.16.0
+* nodejs = v18.18.2
 * npm = v9.5.1
 * yarn = v1.22.19
 
