@@ -25,7 +25,7 @@ const MENU_STYLES = {
     bgcolor: 'primary.50'
   }
 }
-function BoardBar(board) {
+function BoardBar({ board }) {
   return (
     <Box
       sx={{

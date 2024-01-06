@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Card as MuiCard } from '@mui/material'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'

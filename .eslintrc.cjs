@@ -1,5 +1,5 @@
 module.exports = {
-  env: { browser: true, es2020: true, node:true },
+  env: { browser: true, es2020: true, node: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -10,6 +10,7 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    'react/prop-types': 0,
     //mui
     'no-restricted-imports': [
       'error',
@@ -37,6 +38,8 @@ module.exports = {
     'keyword-spacing': 1,
     'comma-dangle': 1,
     'comma-spacing': 1,
-    'arrow-spacing': 1
+    'arrow-spacing': 1,
+
+
   }
 }
