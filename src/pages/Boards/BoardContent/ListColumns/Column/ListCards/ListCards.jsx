@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Card from './Card/Card'
 
-function ListCards() {
+function ListCards({ cards }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
@@ -39,8 +39,9 @@ function ListCards() {
         '&::-webkit-scrollbar-thumb:hover': { backgroundColor: 'bfc2cf' }
       }}
     >
-      <Card />
-      <Card temporaryHideMedia />
+      {cards?.map(card => (
+        <Card key={card._id} card={card} />
+      ))}
     </Box>
   )
 }

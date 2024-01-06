@@ -18,7 +18,7 @@ import DragHandleIcon from '@mui/icons-material/DragHandle'
 import Box from '@mui/material/Box'
 import ListCards from './ListCards/ListCards'
 
-function Column() {
+function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = event => {
@@ -59,7 +59,7 @@ function Column() {
             cursor: 'pointer'
           }}
         >
-          Column Title
+          {column?.title}
         </Typography>
 
         <Box>
@@ -126,7 +126,7 @@ function Column() {
         </Box>
       </Box>
       {/*  Listcards */}
-      <ListCards />
+      <ListCards cards={column?.cards} />
       {/* Box footer */}
       <Box
         sx={{

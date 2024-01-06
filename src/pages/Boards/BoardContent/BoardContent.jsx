@@ -13,7 +13,7 @@ function BoardContent({ board }) {
         p: '10px 0'
       }}
     >
-      <ListColumns />
+      <ListColumns columns={board?.columns} />
     </Box>
   )
 }
