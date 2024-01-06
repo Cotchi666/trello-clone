@@ -29,7 +29,7 @@ function ListColumns({ columns }) {
           mx: 2,
           border: '6px',
           height: 'fit-content',
-          bgcolor: 'ffffff3d'
+          bgcolor: '#ffffff3d'
         }}
       >
         <Button

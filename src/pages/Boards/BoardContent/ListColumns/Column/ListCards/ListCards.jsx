@@ -10,33 +10,35 @@ import Typography from '@mui/material/Typography'
 import Card from './Card/Card'
 
 function ListCards({ cards }) {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const open = Boolean(anchorEl);
+  // const handleClick = event => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
   return (
     <Box
       sx={{
         p: '0 5px',
-        m: '0 5px',
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
-        overflowY: 'auto',
         overflowX: 'hidden',
-        maxHeight: theme =>
-          `calc(
-     ${theme.trello.boardContentHeight} - 
-     ${theme.spacing(5)} - 
-     ${theme.trello.columnHeaderHeight}-
-     ${theme.trello.columnFooterHeight}
-     )`,
-        '&::-webkit-scrollbar-thumb': { backgroundColor: '#ecd0da' },
-        '&::-webkit-scrollbar-thumb:hover': { backgroundColor: 'bfc2cf' }
+        overflowY: 'auto',
+        maxHeight: theme => `calc(
+                  ${theme.trello.boardContentHeight} -
+                  ${theme.spacing(5)} -
+                  ${theme.trello.columnHeaderHeight} -
+                  ${theme.trello.columnFooterHeight}
+                  )`,
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#ced0da'
+        },
+        '*::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#bfc2cf'
+        }
       }}
     >
       {cards?.map(card => (
