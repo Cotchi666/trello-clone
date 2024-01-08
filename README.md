@@ -1,5 +1,5 @@
 ### Base project for my MERN Stack Pro Trello App 
-
+- Live demo : [Trello](https://trello-mernstack.vercel.app/)
 - Preference to [Trung Quan Dev](https://github.com/trungquandev) and his instruction on [Youtube](https://youtube.com/playlist?list=PLP6tw4Zpj-RJP2-YrhtkWqObMQ-AA4TDy&si=b3ysEkkcikHvfDY0)
 
 ### Requirements: 
@@ -28,3 +28,5 @@
 - Author: **Cotchi666 - FinnChien** & **Chilling**
 
 - Portfolio: [Chien Finn Portfolio](portfoliochie.onrender.com/)
+
+- Live demo : [Trello](https://trello-mernstack.vercel.app/)
