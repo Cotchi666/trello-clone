@@ -5,7 +5,9 @@ import {
   DndContext,
   PointerSensor,
   useSensor,
-  useSensors
+  useSensors,
+  MouseSensor,
+  TouchSensor
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState } from 'react'
@@ -15,7 +17,18 @@ function BoardContent({ board }) {
     // click on title string
     activationConstraint: { distance: 10 }
   })
-  const sensors = useSensors(pointerSensor)
+  // move mouse upto 10px trigger event
+  const mouseSensor = useSensor(MouseSensor, {
+    // click on title string
+    activationConstraint: { distance: 10 }
+  })
+  // hold mouse upto delay: 250ms, tolerance: dung sai
+  const touchSensor = useSensor(TouchSensor, {
+    // click on title string
+    activationConstraint: { delay: 250, tolerance: 500 }
+  })
+
+  const sensors = useSensors(mouseSensor, touchSensor)
 
   // current columns
   const [orderedColumns, setOrderedColumns] = useState([])

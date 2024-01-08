@@ -27,7 +27,9 @@ function Column({ column }) {
     useSortable({ id: column?._id, data: { ...column } })
 
   const style = {
+    // touchAction: 'none'
     // transform: CSS.Transform.toString(transform),
+
     transform: CSS.Translate.toString(transform),
     transition
   }
