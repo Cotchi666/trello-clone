@@ -7,10 +7,18 @@ import {
   useSensor,
   useSensors,
   MouseSensor,
-  TouchSensor
+  TouchSensor,
+  DragOverlay,
+  defaultDropAnimationSideEffects
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState } from 'react'
+import Column from './ListColumns/Column/Column'
+import Card from './ListColumns/Column/ListCards/Card/Card'
+const ACTIVE_DRAG_ITEM_TYPE = {
+  COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
+  CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
+}
 
 function BoardContent({ board }) {
   const pointerSensor = useSensor(PointerSensor, {
@@ -32,13 +40,15 @@ function BoardContent({ board }) {
 
   // current columns
   const [orderedColumns, setOrderedColumns] = useState([])
+  const [activeDragItemId, setActiveDragItemId] = useState(null)
+  const [activeDragItemType, setActiveDragItemType] = useState(null)
+  const [activeDragItemData, setActiveDragItemData] = useState(null)
 
   // fetch data
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
 
-  // handle drag
   const handleDragEnd = event => {
     // active: old position || over: new position
     const { active, over } = event
@@ -52,11 +62,38 @@ function BoardContent({ board }) {
       // return arrayMove(orderedColumns, oldIndex, newIndex);
       // state client update
       setOrderedColumns(arrayMove(orderedColumns, oldIndex, newIndex))
+      setActiveDragItemId(null)
+      // setActiveDragItemType(event?.active?.id   )
+      setActiveDragItemType(null)
+      setActiveDragItemData(null)
     }
   }
-
+  const handleDragStart = event => {
+    // active: old position || over: new position
+    setActiveDragItemId(event?.active?.id)
+    // setActiveDragItemType(event?.active?.id   )
+    setActiveDragItemType(
+      event?.active?.data?.current?.columnId
+        ? ACTIVE_DRAG_ITEM_TYPE.CARD
+        : ACTIVE_DRAG_ITEM_TYPE.COLUMN
+    )
+    setActiveDragItemData(event?.active?.data?.current)
+  }
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
+  }
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <Box
         sx={{
           bgcolor: theme =>
@@ -67,6 +104,15 @@ function BoardContent({ board }) {
         }}
       >
         <ListColumns columns={orderedColumns} />
+        <DragOverlay dropAnimation={dropAnimation}>
+          {!activeDragItemType && null}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
+            <Column column={activeDragItemData} />
+          )}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
+            <Card column={activeDragItemData} />
+          )}
+        </DragOverlay>
       </Box>
     </DndContext>
   )
