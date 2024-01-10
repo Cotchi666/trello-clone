@@ -37,7 +37,9 @@ function Column({ column }) {
     // transform: CSS.Transform.toString(transform),
 
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    height: '100%',
+    opacity: isDragging ? 0.5 : undefined
   }
 
   // onclick
