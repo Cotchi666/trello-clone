@@ -10,7 +10,7 @@ import {
 function ListColumns({ columns }) {
   return (
     <SortableContext
-      items={columns.map(c => c._id)}
+      items={columns?.map(c => c._id)}
       strategy={horizontalListSortingStrategy}
     >
       <Box

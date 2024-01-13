@@ -56,6 +56,8 @@ function BoardContent({ board }) {
   }, [board])
 
   const handleDragEnd = event => {
+    console.log('end')
+
     // active: old position || over: new position
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
       return
@@ -85,29 +87,30 @@ function BoardContent({ board }) {
 
     const {
       id: activeDraggingCardId,
-      data: { curent: activeDraggingCardData }
+      data: { current: activeDraggingCardData }
     } = active
     const { id: overCardId } = over
 
     const activeColumn = findColumnByCardId(activeDraggingCardId)
     const overColumn = findColumnByCardId(overCardId)
+    if (!activeColumn || !overColumn) return
 
     if (activeColumn._id !== overColumn._id) {
-      setOrderedColumns(prevColumn => {
+      setOrderedColumns(prevColumns => {
         const overCardIndex = overColumn?.cards?.findIndex(
           card => card._id === overCardId
         )
+
         let newCardIndex
         const isBelowOverItem =
           active.rect.current.translated &&
           active.rect.current.translated.top > over.rect.top + over.rect.height
         const modifier = isBelowOverItem ? 1 : 0
-
         newCardIndex =
           overCardIndex >= 0
             ? overCardIndex + modifier
             : overColumn?.cards?.length + 1
-        const nextColumns = cloneDeep(prevColumn)
+        const nextColumns = cloneDeep(prevColumns)
         const nextActiveColumn = nextColumns.find(
           column => column._id === activeColumn._id
         )
@@ -132,9 +135,11 @@ function BoardContent({ board }) {
             activeDraggingCardData
           )
           nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
-            card => card._id
+            card => card?._id
           )
         }
+        console.log(nextColumns)
+
         return nextColumns
       })
     }
@@ -150,6 +155,7 @@ function BoardContent({ board }) {
     )
     setActiveDragItemData(event?.active?.data?.current)
   }
+
   const dropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({
       styles: {
@@ -161,10 +167,10 @@ function BoardContent({ board }) {
   }
   return (
     <DndContext
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      handleDragOver={handleDragOver}
       sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
     >
       <Box
         sx={{
@@ -176,13 +182,22 @@ function BoardContent({ board }) {
         }}
       >
         <ListColumns columns={orderedColumns} />
+        {/* <DragOverlay dropAnimation={dropAnimation}>
+          {!activeDragItemType && null}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
+            <Column column={activeDragItemData} />
+          )}
+          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
+            <Card card={activeDragItemData} />
+          )}
+        </DragOverlay> */}
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
             <Column column={activeDragItemData} />
           )}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
-            <Card column={activeDragItemData} />
+            <Card card={activeDragItemData} />
           )}
         </DragOverlay>
       </Box>
