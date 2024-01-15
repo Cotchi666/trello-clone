@@ -17,12 +17,23 @@ import { useEffect, useState } from 'react'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import { cloneDeep } from 'lodash'
+
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
 function BoardContent({ board }) {
+  // --------------STATEs---------------//
+  const [orderedColumns, setOrderedColumns] = useState([])
+  const [activeDragItemId, setActiveDragItemId] = useState(null)
+  const [activeDragItemType, setActiveDragItemType] = useState(null)
+  const [activeDragItemData, setActiveDragItemData] = useState(null)
+  const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
+    useState(null)
+
+  // --------------SETTINGs---------------//
+  const sensors = useSensors(mouseSensor, touchSensor)
   const pointerSensor = useSensor(PointerSensor, {
     // click on title string
     activationConstraint: { distance: 10 }
@@ -37,28 +48,28 @@ function BoardContent({ board }) {
     // click on title string
     activationConstraint: { delay: 250, tolerance: 500 }
   })
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
+  }
 
-  const sensors = useSensors(mouseSensor, touchSensor)
-
-  // current columns
-  const [orderedColumns, setOrderedColumns] = useState([])
-  //
-  const [activeDragItemId, setActiveDragItemId] = useState(null)
-  const [activeDragItemType, setActiveDragItemType] = useState(null)
-  const [activeDragItemData, setActiveDragItemData] = useState(null)
-  const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
-    useState(null)
-
+  // --------------FUNCTIONs---------------//
+  // Fetch data
+  useEffect(() => {
+    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+  }, [board])
+  // Find Column By Card Id
   const findColumnByCardId = cardId => {
     return orderedColumns.find(column =>
       column?.cards?.map(card => card._id)?.includes(cardId)
     )
   }
-  // fetch data
-  useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
-  }, [board])
-
+  // Handle Dragging
   const handleDragEnd = event => {
     const { active, over } = event
     // over null
@@ -182,7 +193,6 @@ function BoardContent({ board }) {
             card => card?._id
           )
         }
-        console.log(nextColumns)
 
         return nextColumns
       })
@@ -203,15 +213,6 @@ function BoardContent({ board }) {
     }
   }
 
-  const dropAnimation = {
-    sideEffects: defaultDropAnimationSideEffects({
-      styles: {
-        active: {
-          opacity: '0.5'
-        }
-      }
-    })
-  }
   return (
     <DndContext
       sensors={sensors}
@@ -230,15 +231,6 @@ function BoardContent({ board }) {
         }}
       >
         <ListColumns columns={orderedColumns} />
-        {/* <DragOverlay dropAnimation={dropAnimation}>
-          {!activeDragItemType && null}
-          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
-            <Column column={activeDragItemData} />
-          )}
-          {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD && (
-            <Card card={activeDragItemData} />
-          )}
-        </DragOverlay> */}
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && (
