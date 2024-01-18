@@ -12,10 +12,12 @@ import {
   defaultDropAnimationSideEffects,
   closestCorners,
   pointerWithin,
-  rectIntersection
+  rectIntersection,
+  getFirstCollision,
+  closestCenter
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import { cloneDeep } from 'lodash'
@@ -33,7 +35,8 @@ function BoardContent({ board }) {
   const [activeDragItemData, setActiveDragItemData] = useState(null)
   const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
     useState(null)
-
+  // --------------Hooks--------------- //
+  const lastOverId = useRef(null)
   // --------------SETTINGs--------------- //
   const pointerSensor = useSensor(PointerSensor, {
     // click on title string
@@ -245,12 +248,34 @@ function BoardContent({ board }) {
       }
     }
   }
+  //
   const collissionDetectionStrategy = useCallback(
     args => {
       if (activeDragItemType == ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
         return closestCorners({ ...args })
       }
       const pointerIntersections = pointerWithin(args)
+      // !!pointerIntersections?.length <=> pointerIntersections?.length> 0
+      // return { ids } between 2 columns
+      const intersections = pointerIntersections?.length
+        ? pointerIntersections
+        : rectIntersection(args)
+      // find first overId in interserctions , expect ColumnId
+      let overId = getFirstCollision(intersections, 'id')
+      const checkColumn = orderedColumns.find(column => column._id === overId)
+      if (checkColumn) {
+        overId = closestCenter({
+          ...args,
+          droppableContainers: args.droppableContainers.filter(container => {
+            return (
+              container.id !== overId &&
+              checkColumn?.cardOrderIds?.includes(container.id)
+            )
+          })
+        })[0]?.id
+        lastOverId.current = overId
+        return [{ id: overId }]
+      }
     },
     [activeDragItemType]
   )
