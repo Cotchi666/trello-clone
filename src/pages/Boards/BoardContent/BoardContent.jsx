@@ -10,14 +10,18 @@ import {
   TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  closestCorners
+  closestCorners,
+  pointerWithin,
+  rectIntersection,
+  getFirstCollision,
+  closestCenter
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
-import { cloneDeep } from 'lodash'
-
+import { cloneDeep, isEmpty } from 'lodash'
+import { generatePlaceholderCard } from '~/utlis/formatters'
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
@@ -31,7 +35,8 @@ function BoardContent({ board }) {
   const [activeDragItemData, setActiveDragItemData] = useState(null)
   const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
     useState(null)
-
+  // --------------Hooks--------------- //
+  const lastOverId = useRef(null)
   // --------------SETTINGs--------------- //
   const pointerSensor = useSensor(PointerSensor, {
     // click on title string
@@ -100,14 +105,22 @@ function BoardContent({ board }) {
       const nextOverColumn = nextColumns.find(
         column => column._id === overColumn._id
       )
+      //column has card being dragged
       if (nextActiveColumn) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           card => card._id !== activeDraggingCardId
         )
+        // the column dragged and being empty
+        // create The PlaceholderCard in this column to make sure if any card dragged into not error
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
+        }
+        // update olderCardIds
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           card => card._id
         )
       }
+      // column has card being dropped
       if (nextOverColumn) {
         nextOverColumn.cards = nextOverColumn.cards.filter(
           card => card._id !== activeDraggingCardId
@@ -116,6 +129,11 @@ function BoardContent({ board }) {
           ...activeDraggingCardData,
           columnId: nextOverColumn._id
         })
+        // remove placeholdercard if card dragged into is the new one
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          card => !card.FE_PlaceholderCard
+        )
+        // update olderCardIds
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
           card => card?._id
         )
@@ -243,11 +261,43 @@ function BoardContent({ board }) {
       }
     }
   }
-
+  //
+  const collissionDetectionStrategy = useCallback(
+    args => {
+      if (activeDragItemType == ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+        return closestCorners({ ...args })
+      }
+      const pointerIntersections = pointerWithin(args)
+      if (!pointerIntersections.length) return
+      // !!pointerIntersections?.length <=> pointerIntersections?.length> 0
+      // return { ids } between 2 columns
+      // no need anymore
+      // const intersections = pointerIntersections?.length
+      //   ? pointerIntersections
+      //   : rectIntersection(args)
+      // find first overId in interserctions , expect ColumnId
+      let overId = getFirstCollision(pointerIntersections, 'id')
+      const checkColumn = orderedColumns.find(column => column._id === overId)
+      if (checkColumn) {
+        overId = closestCorners({
+          ...args,
+          droppableContainers: args.droppableContainers.filter(container => {
+            return (
+              container.id !== overId &&
+              checkColumn?.cardOrderIds?.includes(container.id)
+            )
+          })
+        })[0]?.id
+      }
+      lastOverId.current = overId
+      return [{ id: overId }]
+    },
+    [activeDragItemType]
+  )
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={collissionDetectionStrategy}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
