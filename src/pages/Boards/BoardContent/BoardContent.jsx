@@ -255,16 +255,18 @@ function BoardContent({ board }) {
         return closestCorners({ ...args })
       }
       const pointerIntersections = pointerWithin(args)
+      if (!pointerIntersections.length) return
       // !!pointerIntersections?.length <=> pointerIntersections?.length> 0
       // return { ids } between 2 columns
-      const intersections = pointerIntersections?.length
-        ? pointerIntersections
-        : rectIntersection(args)
+      // no need anymore
+      // const intersections = pointerIntersections?.length
+      //   ? pointerIntersections
+      //   : rectIntersection(args)
       // find first overId in interserctions , expect ColumnId
-      let overId = getFirstCollision(intersections, 'id')
+      let overId = getFirstCollision(pointerIntersections, 'id')
       const checkColumn = orderedColumns.find(column => column._id === overId)
       if (checkColumn) {
-        overId = closestCenter({
+        overId = closestCorners({
           ...args,
           droppableContainers: args.droppableContainers.filter(container => {
             return (
