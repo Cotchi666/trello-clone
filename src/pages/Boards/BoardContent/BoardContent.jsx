@@ -20,7 +20,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -105,14 +105,20 @@ function BoardContent({ board }) {
       const nextOverColumn = nextColumns.find(
         column => column._id === overColumn._id
       )
+
       if (nextActiveColumn) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           card => card._id !== activeDraggingCardId
         )
+        // create The PlaceholderCard if column empty
+        if (isEmpty(nextActiveColumn.cards)) {
+          //
+        }
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           card => card._id
         )
       }
+
       if (nextOverColumn) {
         nextOverColumn.cards = nextOverColumn.cards.filter(
           card => card._id !== activeDraggingCardId
