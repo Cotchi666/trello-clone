@@ -21,7 +21,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import { cloneDeep, isEmpty } from 'lodash'
-
+import { generatePlaceholderCard } from '~/utlis/formatters'
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
@@ -105,20 +105,22 @@ function BoardContent({ board }) {
       const nextOverColumn = nextColumns.find(
         column => column._id === overColumn._id
       )
-
+      //column has card being dragged
       if (nextActiveColumn) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           card => card._id !== activeDraggingCardId
         )
-        // create The PlaceholderCard if column empty
+        // the column dragged and being empty
+        // create The PlaceholderCard in this column to make sure if any card dragged into not error
         if (isEmpty(nextActiveColumn.cards)) {
-          //
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
         }
+        // update olderCardIds
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           card => card._id
         )
       }
-
+      // column has card being dropped
       if (nextOverColumn) {
         nextOverColumn.cards = nextOverColumn.cards.filter(
           card => card._id !== activeDraggingCardId
@@ -127,6 +129,11 @@ function BoardContent({ board }) {
           ...activeDraggingCardData,
           columnId: nextOverColumn._id
         })
+        // remove placeholdercard if card dragged into is the new one
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          card => !card.FE_PlaceholderCard
+        )
+        // update olderCardIds
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
           card => card?._id
         )
@@ -281,9 +288,9 @@ function BoardContent({ board }) {
             )
           })
         })[0]?.id
-        lastOverId.current = overId
-        return [{ id: overId }]
       }
+      lastOverId.current = overId
+      return [{ id: overId }]
     },
     [activeDragItemType]
   )

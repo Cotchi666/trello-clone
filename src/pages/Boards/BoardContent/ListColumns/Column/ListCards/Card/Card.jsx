@@ -47,7 +47,7 @@ function Card({ card }) {
         cursor: 'pointer',
         boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.2)',
         overflow: 'unset',
-        display: card?.FE_PLaceholderCard ? 'none' : 'block'
+        display: card?.FE_PlaceholderCard ? 'none' : 'block'
         // overflow :card?.FE_PLaceholderCard ? 'hidden' : 'unset'
         // height :card?.FE_PLaceholderCard ? '0px' : 'unset'
       }}

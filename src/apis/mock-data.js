@@ -207,7 +207,7 @@ export const mockData = {
             _id: 'column-id-04-placeholder-card',
             boardId: 'board-id-01',
             columnId: 'column-id-04',
-            FE_PLaceholderCard: true
+            FE_PlaceholderCard: true
           }
         ]
       }
