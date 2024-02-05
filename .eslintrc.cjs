@@ -10,6 +10,7 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+
     'react/prop-types': 0,
     //mui
     'no-restricted-imports': [
@@ -21,7 +22,8 @@ module.exports = {
     //react
     'react-refresh/only-export-components': 'warn',
     //common
-    'no-console': 1,
+    'no-console': 'off',
+
     'no-lonely-if': 1,
     'no-unused-vars': 1,
     'no-trailing-spaces': 1,
