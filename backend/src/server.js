@@ -5,12 +5,11 @@
  */
 
 import express from 'express'
-import { mapOrder } from '~/utils/sorts.js'
+import { mapOrder } from './utils/sorts.js'
 
 const app = express()
-
 const hostname = 'localhost'
-const port = 8017
+const port = 8000
 
 app.get('/', (req, res) => {
   // Test Absolute import mapOrder

@@ -1,5 +1,6 @@
 {
   "name": "nodejs-expressjs-mongodb-base-project",
+  "type": "module",
   "private": true,
   "version": "1.0.0",
   "author": "Chien Finn",
