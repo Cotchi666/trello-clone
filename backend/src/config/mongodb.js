@@ -14,3 +14,14 @@ const mongoClientInstance = new MongoClient(MONGODB_URI, {
     deprecationErrors: true
   }
 })
+
+export const CONNECT_DB = async () => {
+  await mongoClientInstance.connect()
+  trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME)
+}
+
+export const GET_DB = () => {
+  if (!trelloDatabaseInstance)
+    throw new Error(' Must connect to Database first')
+  return trelloDatabaseInstance
+}
