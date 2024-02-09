@@ -1,14 +1,20 @@
 import express from 'express'
-import { mapOrder } from './utils/sorts.js'
-import { env } from './config/environment.js'
-import { CONNECT_DB, GET_DB, CLOSE_DB } from './config/mongodb.js'
+import { mapOrder } from '~/utils/sorts'
 import exithook from 'async-exit-hook'
+import { env } from '~/config/environment'
+import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
+import { APIs_V1 } from '~/routes/v1'
+
 // Run server
 const START_SERVER = () => {
   const app = express()
   const hostname = env.APP_HOST
   const port = env.APP_PORT
   const author = env.AUTHOR
+
+  // api v1
+  app.use('/v1', APIs_V1)
+  //
   app.get('/', async (req, res) => {
     console.log(await GET_DB().listCollections().toArray())
 
