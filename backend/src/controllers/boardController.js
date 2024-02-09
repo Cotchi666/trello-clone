@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-
+import ApiError from '~/utils/ApiError'
 const createNew = async (req, res, next) => {
   try {
     res
@@ -7,9 +7,9 @@ const createNew = async (req, res, next) => {
       .json({ message: 'POST from Validation: API create new board' })
   } catch (error) {
     next(error)
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ errors: error.message })
+    // res
+    //   .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    //   .json({ errors: error.message })
   }
 }
 
