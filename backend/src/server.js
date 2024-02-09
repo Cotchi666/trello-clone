@@ -1,12 +1,14 @@
 import express from 'express'
 import { mapOrder } from './utils/sorts.js'
 import { CONNECT_DB, GET_DB } from './config/mongodb.js'
+import { env } from './config/environment.js'
 
 // Run server
 const START_SERVER = () => {
   const app = express()
-  const hostname = 'localhost'
-  const port = 8000
+  const hostname = env.APP_HOST
+  const port = env.APP_PORT
+  const author = env.AUTHOR
   app.get('/', async (req, res) => {
     console.log(await GET_DB().listCollections().toArray())
 
@@ -27,7 +29,7 @@ const START_SERVER = () => {
     res.end('<h1>Hello World!</h1><hr>')
   })
   app.listen(port, hostname, () => {
-    console.log(`Hello Trung Quan Dev, I am running at ${hostname}:${port}/`)
+    console.log(`Hello ${author}, I am running at ${hostname}:${port}/`)
   })
 };
 
