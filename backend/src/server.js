@@ -1,8 +1,8 @@
 import express from 'express'
 import { mapOrder } from './utils/sorts.js'
-import { CONNECT_DB, GET_DB } from './config/mongodb.js'
 import { env } from './config/environment.js'
-
+import { CONNECT_DB, GET_DB, CLOSE_DB } from './config/mongodb.js'
+import exithook from 'async-exit-hook'
 // Run server
 const START_SERVER = () => {
   const app = express()
@@ -30,6 +30,14 @@ const START_SERVER = () => {
   })
   app.listen(port, hostname, () => {
     console.log(`Hello ${author}, I am running at ${hostname}:${port}/`)
+    console.log(` I am running at ${hostname}:${port}/`)
+  })
+  exithook(() => {
+    console.log('Vo ')
+
+    CLOSE_DB()
+
+    console.log('Exit ')
   })
 };
 
