@@ -4,7 +4,7 @@ import { boardValidation } from '~/validations/boardValidation'
 import { boardController } from '~/controllers/boardController'
 const Router = express.Router()
 
-Router.route('/')
+Router.route('/:id')
   .get((req, res) => {
     res.status(StatusCodes.OK).json({ message: 'GET: API get list boards' })
   })
