@@ -5,6 +5,7 @@
  */
 import Joi from 'joi'
 import { result } from 'lodash'
+import { ObjectId } from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
 import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validators'
 
@@ -25,11 +26,18 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false)
 })
 
+const validateBeforeCreate = async data => {
+  return await BOARD_COLLECTION_SCHEMA.validateAsync(data, {
+    absortEarly: false
+  })
+}
+
 const createNew = async data => {
   try {
+    const validData = await validateBeforeCreate(data)
     const createdBoard = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
-      .insertOne(data)
+      .insertOne(validData)
     return createdBoard
   } catch (error) {
     throw new Error(error)
@@ -38,9 +46,11 @@ const createNew = async data => {
 
 const findOneById = async id => {
   try {
-    const rs = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({
-      _id: id
-    })
+    const rs = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOne({
+        _id: new ObjectId(id)
+      })
     return rs
   } catch (error) {
     throw new Error(error)
