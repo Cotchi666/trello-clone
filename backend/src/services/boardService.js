@@ -9,8 +9,9 @@ const createNew = async reqBody => {
       slug: slugify(reqBody.title)
     }
     const createdBoard = await boardModel.createNew(newBoard)
-    console.log('createDBoard', createdBoard)
-    return createdBoard
+    const data = await boardModel.findOneById(createdBoard.insertedId)
+    console.log('getBoardData', data)
+    return data
   } catch (error) {
     throw error
   }

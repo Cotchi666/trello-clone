@@ -4,6 +4,7 @@
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
 import Joi from 'joi'
+import { result } from 'lodash'
 import { GET_DB } from '~/config/mongodb'
 import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validators'
 
@@ -34,8 +35,20 @@ const createNew = async data => {
     throw new Error(error)
   }
 }
+
+const findOneById = async id => {
+  try {
+    const rs = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({
+      _id: id
+    })
+    return rs
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
-  createNew
+  createNew,
+  findOneById
 }
