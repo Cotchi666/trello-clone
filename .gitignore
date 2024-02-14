@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 *.env
+<<<<<<< Updated upstream
+=======
+backend/*.env
+>>>>>>> Stashed changes
 
 # Editor directories and files
 .vscode/*
