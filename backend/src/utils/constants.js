@@ -3,3 +3,4 @@
  * YouTube: https://youtube.com/@trungquandev
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
+export const WHITELIST_DOMAINS = ['http:0.0.0.0:8000/']

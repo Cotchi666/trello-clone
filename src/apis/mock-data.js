@@ -35,7 +35,7 @@ export const mockData = {
             boardId: 'board-id-01',
             columnId: 'column-id-01',
             title: 'Title of card 01',
-            description: 'Markdown Syntax (sẽ ở khóa nâng cao nhé)',
+            description: 'Markdown Syntax ',
             cover:
               'https://trungquandev.com/wp-content/uploads/2022/07/fair-mern-stack-advanced-banner-trungquandev.jpg',
             memberIds: ['test-user-id-01'],
