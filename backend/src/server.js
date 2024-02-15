@@ -1,5 +1,6 @@
 import express from 'express'
-import { mapOrder } from '~/utils/sorts'
+import { CorsOptions } from '~/config/cors'
+import cors from 'cors'
 import exithook from 'async-exit-hook'
 import { env } from '~/config/environment'
 import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
@@ -11,6 +12,8 @@ const START_SERVER = () => {
   const hostname = env.APP_HOST
   const port = env.APP_PORT
   const author = env.AUTHOR
+
+  app.use(cors(CorsOptions))
   // config
   app.use(express.json())
   // api v1
