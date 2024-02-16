@@ -122,7 +122,6 @@ function ListColumns({ columns }) {
                   '&:hover': { bgcolor: theme => theme.palette.success.main }
                 }}
               >
-                {' '}
                 Add Column
               </Button>
               <CloseIcon
