@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import Button from '@mui/material/Button'
@@ -8,6 +9,9 @@ import {
 } from '@dnd-kit/sortable'
 
 function ListColumns({ columns }) {
+  const [openNewColumnForm, setOpenNewColumnForm] = useState(true)
+  const toggleOpenNewColumnForm = () =>
+    setOpenNewColumnForm(!openNewColumnForm)
   return (
     <SortableContext
       items={columns?.map(c => c._id)}
@@ -31,29 +35,45 @@ function ListColumns({ columns }) {
         ))}
 
         {/* Box add new column CTA */}
-        <Box
-          sx={{
-            minWidth: '200px',
-            maxWidth: '200px',
-            mx: 2,
-            border: '6px',
-            height: 'fit-content',
-            bgcolor: '#ffffff3d'
-          }}
-        >
-          <Button
+        {!openNewColumnForm ? (
+          <Box
             sx={{
-              color: 'white',
-              width: '100%',
-              justifyContent: 'flex-start',
-              pl: 2.5,
-              py: 1
+              minWidth: '200px',
+              maxWidth: '200px',
+              mx: 2,
+              border: '6px',
+              height: 'fit-content',
+              bgcolor: '#ffffff3d'
             }}
-            startIcon={<NoteAddIcon />}
           >
-            Add new column
-          </Button>
-        </Box>
+            <Button
+              sx={{
+                color: 'white',
+                width: '100%',
+                justifyContent: 'flex-start',
+                pl: 2.5,
+                py: 1
+              }}
+              startIcon={<NoteAddIcon />}
+            >
+              Add new column
+            </Button>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              minWidth: '250px',
+              maxWidth: '250px',
+              mx: 2,
+              p: 1,
+              borderRadius: '6px',
+              height: 'fit-content',
+              bgcolor: '#ffffff3d',
+              flexDirection: 'column',
+              gap: 1
+            }}
+          ></Box>
+        )}
       </Box>
     </SortableContext>
   )
