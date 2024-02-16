@@ -9,17 +9,18 @@ function Board() {
   const [board, setBoard] = useState(null)
 
   useEffect(() => {
-    const boardId = '65cc9fa9f266eff74750a1b8'
+    const boardId = '65ced8b1a5123a14d1286c66'
+    // clumns
+    // card 65ced49feec1749561b98688
     fetchBoardDetailsAPI(boardId).then(board => {
-      console.log('board client', board)
       setBoard(board)
     })
   }, [])
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />
-      <BoardBar board={board?.board} />
-      <BoardContent board={board?.board} />
+      <BoardBar board={board} />
+      <BoardContent board={board} />
     </Container>
   )
 }
