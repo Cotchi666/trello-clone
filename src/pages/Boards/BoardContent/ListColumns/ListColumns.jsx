@@ -47,6 +47,7 @@ function ListColumns({ columns }) {
         {/* Box add new column CTA */}
         {!openNewColumnForm ? (
           <Box
+            onClick={toggleOpenNewColumnForm}
             sx={{
               minWidth: '200px',
               maxWidth: '200px',
@@ -84,9 +85,7 @@ function ListColumns({ columns }) {
               gap: 1
             }}
           >
-            {' '}
             <TextField
-              id="outlined-search"
               label="Enter column title..."
               size="small"
               type="text"
@@ -107,7 +106,10 @@ function ListColumns({ columns }) {
                 }
               }}
             />
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box
+              mt="9px"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+            >
               <Button
                 onClick={addNewColumn}
                 variant="contained"
@@ -120,6 +122,7 @@ function ListColumns({ columns }) {
                   '&:hover': { bgcolor: theme => theme.palette.success.main }
                 }}
               >
+                {' '}
                 Add Column
               </Button>
               <CloseIcon
