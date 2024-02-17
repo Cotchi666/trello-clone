@@ -61,7 +61,7 @@ const pushCardOrderIds = async card => {
       .collection(COLUMN_COLLECTION_NAME)
       .findOneAndUpdate(
         { _id: new ObjectId(card.columnId) },
-        { $push: { carcOrderIds: new ObjectId(card._id) } },
+        { $push: { cardOrderIds: new ObjectId(card._id) } },
         { returnDocument: 'after' }
       )
     return result.value || null

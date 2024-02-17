@@ -11,19 +11,25 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(true)
   const toggleOpenNewColumnForm = () =>
     setOpenNewColumnForm(!openNewColumnForm)
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Please enter Column Title!')
       return
     }
+    const newColumnData = {
+      title: newColumnTitle
+    }
+    const rs = await createNewColumn(newColumnData)
+
     toggleOpenNewColumnForm()
     setNewColumnTitle('')
   }
+
   return (
     <SortableContext
       items={columns?.map(c => c._id)}
@@ -43,7 +49,11 @@ function ListColumns({ columns }) {
         }}
       >
         {columns?.map(column => (
-          <Column key={column._id} column={column} />
+          <Column
+            key={column._id}
+            column={column}
+            createNewCard={createNewCard}
+          />
         ))}
 
         {/* Box add new column CTA */}
