@@ -24,7 +24,8 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
     const newColumnData = {
       title: newColumnTitle
     }
-    await createNewColumn(newColumnData)
+    const rs = await createNewColumn(newColumnData)
+
     toggleOpenNewColumnForm()
     setNewColumnTitle('')
   }
