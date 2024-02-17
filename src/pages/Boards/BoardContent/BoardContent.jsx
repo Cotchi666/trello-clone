@@ -10,9 +10,7 @@ import {
   defaultDropAnimationSideEffects,
   closestCorners,
   pointerWithin,
-  rectIntersection,
-  getFirstCollision,
-  closestCenter
+  getFirstCollision
 } from '@dnd-kit/core'
 import { MouseSensor, TouchSensor } from '~/customLibs/DndKitSensors'
 import { arrayMove } from '@dnd-kit/sortable'
@@ -26,7 +24,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board, createNewColumn, createNewCard }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // --------------STATEs--------------- //
   const [orderedColumns, setOrderedColumns] = useState([])
   const [activeDragItemId, setActiveDragItemId] = useState(null)
@@ -37,10 +35,6 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
   // --------------Hooks--------------- //
   const lastOverId = useRef(null)
   // --------------SETTINGs--------------- //
-  const pointerSensor = useSensor(PointerSensor, {
-    // click on title string
-    activationConstraint: { distance: 10 }
-  })
   // move mouse upto 10px trigger event
   const mouseSensor = useSensor(MouseSensor, {
     // click on title string
@@ -249,16 +243,20 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
         // const orderedColumnsIds = orderedColumns.map(c => c._id);
         // return arrayMove(orderedColumns, oldIndex, newIndex);
         // state client update
-        setOrderedColumns(
-          arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
+        const dndOrderedColumns = arrayMove(
+          orderedColumns,
+          oldColumnIndex,
+          newColumnIndex
         )
-        setActiveDragItemId(null)
-        // setActiveDragItemType(event?.active?.id   )
-        setActiveDragItemType(null)
-        setActiveDragItemData(null)
-        setOldColumnWhenDraggingCard(null)
+        setOrderedColumns(dndOrderedColumns)
+        moveColumns(dndOrderedColumns)
       }
     }
+
+    setActiveDragItemId(null)
+    setActiveDragItemType(null)
+    setActiveDragItemData(null)
+    setOldColumnWhenDraggingCard(null)
   }
   //
   const collissionDetectionStrategy = useCallback(
@@ -293,6 +291,7 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
     },
     [activeDragItemType]
   )
+
   return (
     <DndContext
       sensors={sensors}
