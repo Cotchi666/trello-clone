@@ -6,7 +6,8 @@ import BoardBar from './BoardBar/BoardBar'
 import {
   fetchBoardDetailsAPI,
   createNewCardAPI,
-  createNewColumnAPI
+  createNewColumnAPI,
+  updateBoardDetailsAPI
 } from '~/apis'
 import { generatePlaceholderCard } from '~/utlis/formatters'
 import { isEmpty } from 'lodash'
@@ -57,7 +58,15 @@ function Board() {
     }
     setBoard(newBoard)
   }
+  const moveColumns = dndOrderedColumns => {
+    const dndOrderColumnsIds = dndOrderedColumns.map(c => c._id)
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderColumnsIds
+    setBoard(newBoard)
 
+    updateBoardDetailsAPI(newBoard._id, { columnOrderIds: dndOrderColumnsIds })
+  }
+  const moveCardInTheSameColumns = () => {}
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />
@@ -66,6 +75,8 @@ function Board() {
         board={board}
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
+        moveColumns={moveColumns}
+        moveCardInTheSameColumns={moveCardInTheSameColumns}
       />
     </Container>
   )
