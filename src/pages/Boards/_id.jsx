@@ -13,7 +13,7 @@ function Board() {
   const [board, setBoard] = useState(null)
 
   useEffect(() => {
-    const boardId = '65ced8b1a5123a14d1286c66'
+    const boardId = '65ced0ed4755f1e9b96d1209'
     // clumns
     // card 65ced49feec1749561b98688
     fetchBoardDetailsAPI(boardId).then(board => {

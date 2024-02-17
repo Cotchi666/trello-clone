@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
+
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -29,6 +31,7 @@ function Column({ column, createNewCard }) {
   const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = async () => {
     if (!newCardTitle) {
+      toast.error('Please enter Card Title! ', { position: 'bottom-right' })
       return
     }
     const newCardData = {
@@ -217,6 +220,7 @@ function Column({ column, createNewCard }) {
                 type="text"
                 variant="outlined"
                 autoFocus
+                data-no-dnd="true"
                 value={newCardTitle}
                 onChange={e => setNewCardTitle(e.target.value)}
                 sx={{
@@ -234,6 +238,7 @@ function Column({ column, createNewCard }) {
               />
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Button
+                  data-no-dnd="true"
                   onClick={addNewCard}
                   variant="contained"
                   color="success"
