@@ -13,18 +13,27 @@ import {
 import { generatePlaceholderCard } from '~/utlis/formatters'
 import { isEmpty } from 'lodash'
 import { toast } from 'react-toastify'
-
+import { mapOrder } from '~/utlis/sorts'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 function Board() {
   const [board, setBoard] = useState(null)
 
   useEffect(() => {
     const boardId = '65ced0ed4755f1e9b96d1209'
 
+    // fetch
     fetchBoardDetailsAPI(boardId).then(board => {
+      // sort
+      board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
+      //
       board.columns.forEach(column => {
         if (isEmpty(column.cards)) {
           column.cards = [generatePlaceholderCard(column)]
           column.cardOrderIds = [generatePlaceholderCard(column)._id]
+        } else {
+          column.cards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
         }
       })
       setBoard(board)
@@ -92,6 +101,24 @@ function Board() {
     setBoard(newBoard)
     updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderCardIds })
   }
+  if (!board) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 2,
+          width: '100w',
+          height: '100vh'
+        }}
+      >
+        <CircularProgress />
+        <Typography>Loading Board...</Typography>
+      </Box>
+    )
+  }
+  console.log('thua')
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />

@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
-import { mapOrder } from '~/utlis/sorts'
 import {
   DndContext,
   PointerSensor,
@@ -65,7 +64,8 @@ function BoardContent({
 
   // --------------FUNCTIONs--------------- //
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    //sort from _id
+    setOrderedColumns(board.columns)
   }, [board])
   // Find Column By Card Id
   const findColumnByCardId = cardId => {
