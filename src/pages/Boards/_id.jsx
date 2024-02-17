@@ -7,10 +7,12 @@ import {
   fetchBoardDetailsAPI,
   createNewCardAPI,
   createNewColumnAPI,
-  updateBoardDetailsAPI
+  updateBoardDetailsAPI,
+  updateColumnDetailsAPI
 } from '~/apis'
 import { generatePlaceholderCard } from '~/utlis/formatters'
 import { isEmpty } from 'lodash'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -34,6 +36,11 @@ function Board() {
       ...newColumnData,
       boardId: board._id
     })
+    if (!createdColumn) {
+      toast.error('Some thing wrong!')
+      return
+    }
+    console.log(createdColumn)
     createdColumn.cards = [generatePlaceholderCard(createdColumn)]
     createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
 
@@ -56,17 +63,35 @@ function Board() {
       columnToUpdate.cards.push(createdCard)
       columnToUpdate.cardOrderIds.push(createdCard._id)
     }
+    console.log('newcard', newBoard)
     setBoard(newBoard)
   }
   const moveColumns = dndOrderedColumns => {
-    const dndOrderColumnsIds = dndOrderedColumns.map(c => c._id)
+    const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
     const newBoard = { ...board }
-    newBoard.columns = dndOrderColumnsIds
+    newBoard.columns = dndOrderedColumnIds
     setBoard(newBoard)
 
-    updateBoardDetailsAPI(newBoard._id, { columnOrderIds: dndOrderColumnsIds })
+    updateBoardDetailsAPI(newBoard._id, {
+      columnOrderIds: dndOrderedColumnIds
+    })
   }
-  const moveCardInTheSameColumns = () => {}
+  const moveCardInTheSameColumns = (
+    dndOrderedCards,
+    dndOrderCardIds,
+    columnId
+  ) => {
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(
+      column => column._id === columnId
+    )
+    if (columnToUpdate) {
+      columnToUpdate.cards = dndOrderedCards
+      columnToUpdate.cardOrderIds = dndOrderCardIds
+    }
+    setBoard(newBoard)
+    updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderCardIds })
+  }
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />

@@ -13,12 +13,24 @@ const createNew = async reqBody => {
       data.cards = []
       await boardModel.pushColumnOrderIds(data)
     }
-    return data.value || null
+    return data
   } catch (error) {
     throw error
   }
 }
-
+const update = async (columnId, reqBody) => {
+  try {
+    const updateData = {
+      ...reqBody,
+      updatedAt: Date.now()
+    }
+    const updatedColumn = await columnModel.update(columnId, updateData)
+    return updatedColumn
+  } catch (e) {
+    throw new Error(e)
+  }
+}
 export const columnService = {
-  createNew
+  createNew,
+  update
 }
