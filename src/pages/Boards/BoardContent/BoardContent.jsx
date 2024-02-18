@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
 import {
   DndContext,
-  PointerSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -28,7 +27,8 @@ function BoardContent({
   createNewColumn,
   createNewCard,
   moveColumns,
-  moveCardInTheSameColumns
+  moveCardInTheSameColumns,
+  moveCardToDifferentColumns
 }) {
   // --------------STATEs--------------- //
   const [orderedColumns, setOrderedColumns] = useState([])
@@ -81,7 +81,8 @@ function BoardContent({
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setOrderedColumns(prevColumns => {
       const overCardIndex = overColumn?.cards?.findIndex(
@@ -137,6 +138,15 @@ function BoardContent({
           card => card?._id
         )
       }
+      if (triggerFrom === 'handleDragEnd') {
+        console.log('trigger')
+        moveCardToDifferentColumns(
+          activeDraggingCardId,
+          oldColumnWhenDraggingCard._id,
+          nextOverColumn._id,
+          nextColumns
+        )
+      }
       return nextColumns
     })
   }
@@ -179,7 +189,8 @@ function BoardContent({
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -211,7 +222,8 @@ function BoardContent({
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
