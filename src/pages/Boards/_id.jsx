@@ -47,10 +47,7 @@ function Board() {
       ...newColumnData,
       boardId: board._id
     })
-    if (!createdColumn) {
-      toast.error('Some thing wrong!')
-      return
-    }
+
     console.log(createdColumn)
     createdColumn.cards = [generatePlaceholderCard(createdColumn)]
     createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
@@ -66,6 +63,7 @@ function Board() {
       ...newCardData,
       boardId: board._id
     })
+
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find(
       column => column._id === createdCard.comlumnId
@@ -79,7 +77,6 @@ function Board() {
         columnToUpdate.cardOrderIds.push(createdCard._id)
       }
     }
-    console.log('newcard', newBoard)
     setBoard(newBoard)
   }
   const moveColumns = dndOrderedColumns => {
@@ -163,7 +160,6 @@ function Board() {
       </Box>
     )
   }
-  console.log('thua')
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />

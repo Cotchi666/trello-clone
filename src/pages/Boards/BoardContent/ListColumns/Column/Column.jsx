@@ -26,23 +26,6 @@ import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 
 function Column({ column, createNewCard, deleteColumnDetails }) {
-  const [openNewCardForm, setOpenNewCardForm] = useState(false)
-  const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
-  const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = async () => {
-    if (!newCardTitle) {
-      toast.error('Please enter Card Title! ', { position: 'bottom-right' })
-      return
-    }
-    const newCardData = {
-      title: newCardTitle,
-      columnId: column._id
-    }
-    createNewCard(newCardData)
-
-    toggleOpenNewCardForm()
-    setNewCardTitle('')
-  }
   //drag-_drops
   const {
     attributes,
@@ -72,6 +55,26 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const [openNewCardForm, setOpenNewCardForm] = useState(false)
+  const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
+  const [newCardTitle, setNewCardTitle] = useState('')
+
+  const addNewCard = async () => {
+    if (!newCardTitle) {
+      toast.error('Please enter Card Title! ', { position: 'bottom-right' })
+      return
+    }
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+    await createNewCard(newCardData)
+
+    setNewCardTitle('')
+    toggleOpenNewCardForm()
+  }
+
   const confirmDeleteColumn = useConfirm()
 
   const handleDeleteColumn = () => {
@@ -260,13 +263,28 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
                 sx={{
                   minWidth: 120,
                   maxWidth: 180,
-                  '& label': { color: 'white' },
-                  '& input': { color: 'white' },
-                  '& label.Mui-focused': { color: 'white' },
+                  '& label': { color: 'text.primary' },
+                  '& input': {
+                    color: theme => theme.palette.primary.main,
+                    borderColor: theme =>
+                      theme.palette.mode === 'dark' ? '#333643' : 'white'
+                  },
+                  '& label.Mui-focused': {
+                    color: theme => theme.palette.primary.main
+                  },
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': { borderColor: 'white' },
-                    '&:hover fieldset': { borderColor: 'white' },
-                    '&.Mui-focused fieldset': { borderColor: 'white' }
+                    '& fieldset': {
+                      borderColor: theme => theme.palette.primary.main
+                    },
+                    '&:hover fieldset': {
+                      borderColor: theme => theme.palette.primary.main
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: theme => theme.palette.primary.main
+                    }
+                  },
+                  '& .MuiOutlinedInput-input': {
+                    borderRadius: 1
                   }
                 }}
               />
