@@ -9,7 +9,8 @@ import {
   createNewColumnAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI,
-  moveCardToDifferentColumnAPI
+  moveCardToDifferentColumnAPI,
+  deleteColumnDetailsAPI
 } from '~/apis'
 import { generatePlaceholderCard } from '~/utlis/formatters'
 import { isEmpty } from 'lodash'
@@ -134,6 +135,17 @@ function Board() {
         ?.cardOrderIds
     })
   }
+  const deleteColumnDetails = async columnId => {
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+      _id => _id !== columnId
+    )
+    setBoard(newBoard)
+    deleteColumnDetailsAPI(columnId).then(res =>
+      toast.success(res?.deleteReuslt)
+    )
+  }
   if (!board) {
     return (
       <Box
@@ -163,6 +175,7 @@ function Board() {
         moveColumns={moveColumns}
         moveCardInTheSameColumns={moveCardInTheSameColumns}
         moveCardToDifferentColumns={moveCardToDifferentColumns}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   )

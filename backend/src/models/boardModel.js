@@ -43,12 +43,12 @@ const createNew = async data => {
   }
 }
 
-const findOneById = async id => {
+const findOneById = async boardId => {
   try {
     const rs = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
       .findOne({
-        _id: new ObjectId(id)
+        _id: new ObjectId(boardId)
       })
     return rs
   } catch (error) {
