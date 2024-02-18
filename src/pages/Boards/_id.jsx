@@ -48,7 +48,6 @@ function Board() {
       boardId: board._id
     })
 
-    console.log(createdColumn)
     createdColumn.cards = [generatePlaceholderCard(createdColumn)]
     createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
 

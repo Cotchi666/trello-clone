@@ -69,10 +69,10 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
       title: newCardTitle,
       columnId: column._id
     }
-    await createNewCard(newCardData)
+    createNewCard(newCardData)
 
-    setNewCardTitle('')
     toggleOpenNewCardForm()
+    setNewCardTitle('')
   }
 
   const confirmDeleteColumn = useConfirm()
