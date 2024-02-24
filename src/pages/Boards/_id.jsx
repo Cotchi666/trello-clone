@@ -81,7 +81,8 @@ function Board() {
   const moveColumns = dndOrderedColumns => {
     const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
     const newBoard = { ...board }
-    newBoard.columns = dndOrderedColumnIds
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnIds
     setBoard(newBoard)
 
     updateBoardDetailsAPI(newBoard._id, {

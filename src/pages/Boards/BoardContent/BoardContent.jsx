@@ -140,7 +140,6 @@ function BoardContent({
         )
       }
       if (triggerFrom === 'handleDragEnd') {
-        console.log('trigger')
         moveCardToDifferentColumns(
           activeDraggingCardId,
           oldColumnWhenDraggingCard._id,
@@ -247,7 +246,6 @@ function BoardContent({
           )
           targetColumn.cards = dndOrderedCards
           targetColumn.cardOrderIds = dndOrderedCardIds
-          console.log(targetColumn)
           return nextColumns
         })
         moveCardInTheSameColumns(
@@ -274,6 +272,7 @@ function BoardContent({
           newColumnIndex
         )
         setOrderedColumns(dndOrderedColumns)
+
         moveColumns(dndOrderedColumns)
       }
     }
