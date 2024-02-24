@@ -9,7 +9,8 @@ import {
   createNewColumnAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI,
-  moveCardToDifferentColumnAPI
+  moveCardToDifferentColumnAPI,
+  deleteColumnDetailsAPI
 } from '~/apis'
 import { generatePlaceholderCard } from '~/utlis/formatters'
 import { isEmpty } from 'lodash'
@@ -46,11 +47,7 @@ function Board() {
       ...newColumnData,
       boardId: board._id
     })
-    if (!createdColumn) {
-      toast.error('Some thing wrong!')
-      return
-    }
-    console.log(createdColumn)
+
     createdColumn.cards = [generatePlaceholderCard(createdColumn)]
     createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
 
@@ -65,21 +62,27 @@ function Board() {
       ...newCardData,
       boardId: board._id
     })
+
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find(
       column => column._id === createdCard.comlumnId
     )
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createdCard._id)
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
     }
-    console.log('newcard', newBoard)
     setBoard(newBoard)
   }
   const moveColumns = dndOrderedColumns => {
     const dndOrderedColumnIds = dndOrderedColumns.map(c => c._id)
     const newBoard = { ...board }
-    newBoard.columns = dndOrderedColumnIds
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnIds
     setBoard(newBoard)
 
     updateBoardDetailsAPI(newBoard._id, {
@@ -114,6 +117,11 @@ function Board() {
     newBoard.columns = dndOrderedColumns
     newBoard.columnOrderIds = dndOrderedColumnsIds
     setBoard(newBoard)
+
+    let prevCardOrderIds = dndOrderedColumns.find(
+      c => c._id === prevColumnId
+    )?.cardOrderIds
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
     moveCardToDifferentColumnAPI({
       currentCardId,
       prevColumnId,
@@ -123,6 +131,17 @@ function Board() {
       nextCardOrderIds: dndOrderedColumns.find(c => c._id === prevColumnId)
         ?.cardOrderIds
     })
+  }
+  const deleteColumnDetails = async columnId => {
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+      _id => _id !== columnId
+    )
+    setBoard(newBoard)
+    deleteColumnDetailsAPI(columnId).then(res =>
+      toast.success(res?.deleteReuslt)
+    )
   }
   if (!board) {
     return (
@@ -141,7 +160,6 @@ function Board() {
       </Box>
     )
   }
-  console.log('thua')
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar />
@@ -153,6 +171,7 @@ function Board() {
         moveColumns={moveColumns}
         moveCardInTheSameColumns={moveCardInTheSameColumns}
         moveCardToDifferentColumns={moveCardToDifferentColumns}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   )

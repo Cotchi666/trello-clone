@@ -28,7 +28,8 @@ function BoardContent({
   createNewCard,
   moveColumns,
   moveCardInTheSameColumns,
-  moveCardToDifferentColumns
+  moveCardToDifferentColumns,
+  deleteColumnDetails
 }) {
   // --------------STATEs--------------- //
   const [orderedColumns, setOrderedColumns] = useState([])
@@ -139,7 +140,6 @@ function BoardContent({
         )
       }
       if (triggerFrom === 'handleDragEnd') {
-        console.log('trigger')
         moveCardToDifferentColumns(
           activeDraggingCardId,
           oldColumnWhenDraggingCard._id,
@@ -246,7 +246,6 @@ function BoardContent({
           )
           targetColumn.cards = dndOrderedCards
           targetColumn.cardOrderIds = dndOrderedCardIds
-          console.log(targetColumn)
           return nextColumns
         })
         moveCardInTheSameColumns(
@@ -273,6 +272,7 @@ function BoardContent({
           newColumnIndex
         )
         setOrderedColumns(dndOrderedColumns)
+
         moveColumns(dndOrderedColumns)
       }
     }
@@ -337,6 +337,7 @@ function BoardContent({
           columns={orderedColumns}
           createNewCard={createNewCard}
           createNewColumn={createNewColumn}
+          deleteColumnDetails={deleteColumnDetails}
         />
         <DragOverlay dropAnimation={dropAnimation}>
           {!activeDragItemType && null}

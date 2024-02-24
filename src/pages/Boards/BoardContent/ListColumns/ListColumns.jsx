@@ -11,7 +11,12 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import TextField from '@mui/material/TextField'
 
-function ListColumns({ columns, createNewColumn, createNewCard }) {
+function ListColumns({
+  columns,
+  createNewColumn,
+  createNewCard,
+  deleteColumnDetails
+}) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(true)
   const toggleOpenNewColumnForm = () =>
     setOpenNewColumnForm(!openNewColumnForm)
@@ -53,6 +58,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
             key={column._id}
             column={column}
             createNewCard={createNewCard}
+            deleteColumnDetails={deleteColumnDetails}
           />
         ))}
 
