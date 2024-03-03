@@ -30,6 +30,7 @@ const update = async (req, res, next) => {
 }
 const moveCardToDifferentColumn = async (req, res, next) => {
   try {
+    console.log(req.body)
     const result = await boardService.moveCardToDifferentColumn(req.body)
     res.status(StatusCodes.OK).json(result)
   } catch (error) {
