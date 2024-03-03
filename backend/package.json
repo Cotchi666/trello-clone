@@ -16,6 +16,8 @@
     "dev": "cross-env BUILD_MODE=dev nodemon --exec babel-node ./src/server.js"
   },
   "dependencies": {
+    "http-status-codes": "2.3.0",
+
     "@babel/runtime": "^7.22.10",
     "async-exit-hook": "2.0.1",
     "cors": "2.8.5",
